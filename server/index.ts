@@ -1,10 +1,10 @@
-import { db } from "@/lib/database";
-import { publicProcedure, router } from "@/server/trpc";
+import { router } from "@/server/trpc";
+import { Users } from "./routers/Users";
+import { Quizzes } from "./routers/Quizzes";
 
 export const appRouter = router({
-  getUsers: publicProcedure.query(async () => {
-    return await db.user.findMany();
-  }),
+  Users,
+  Quizzes,
 });
 
 export type AppRouter = typeof appRouter;

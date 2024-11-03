@@ -27,3 +27,9 @@ export const SignUpSchema = z.object({
     .min(1, "Username is required")
     .max(32, "Username must be less than 32 characters"),
 });
+
+export const createQuizSchema = z.object({
+  creatorId: z.string(),
+  title: z.string(),
+  category: z.enum(["ENGLISH", "DEUTSCH"]),
+});
