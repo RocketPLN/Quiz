@@ -8,11 +8,13 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(cuid())
-  username String @unique
-  email    String @unique
-  password String
-  quizzes  Quiz[]
+  id        String   @id @default(cuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  quizzes   Quiz[]
 }
 
 model Quiz {
@@ -21,6 +23,8 @@ model Quiz {
   title     String
   category  QuizCategory
   questions Question[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
   User      User         @relation(fields: [creatorId], references: [id])
 }
 

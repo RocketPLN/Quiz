@@ -1,101 +1,82 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight, BookCopy, UserRound } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="w-screen flex justify-center flex-col items-center overflow-x-hidden">
+      <div className="absolute left-1/2 top-1/2 -z-10 h-[400px] w-[800px] -translate-x-1/2 -translate-y-1/2 opacity-15 blur-[100px] bg-primary"></div>
+      <div className="h-[50vh] flex items-center">
+        <h1 className="inline-flex p-2 text-center flex-col gap-1 capitalize font-display text-6xl font-bold leading-none md:text-[8rem] bg-gradient-to-r from-40% via-50% to-60% bg-clip-text text-transparent from-primary via-white/80 to-primary/90 bg-[length:300%_100%] bg-[position:50%_50%] animate-shine">
+          <span>Quiz App</span> <span>for better learning</span>
+        </h1>
+      </div>
+      <div className="md:w-8/12 w-full flex md:flex-row flex-col justify-center items-center md:gap-2 gap-4">
+        <div className="flex flex-col gap-3 md:w-1/3 w-3/4 py-8 px-2 rounded-lg md:rounded-l-3xl text-lg justify-center items-center bg-muted/50 backdrop-blur-lg">
+          <h2 className="text-2xl font-semibold">Quizzes</h2>
+          <span className="text-muted-foreground text-md">
+            Create quizzes and test yourself
+          </span>
+          <Button variant="destructive" className="text-xl">
+            Create Quiz <ArrowUpRight />
+          </Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="flex flex-col gap-3 md:w-1/3 w-3/4 py-8 px-2 rounded-lg text-lg justify-center items-center bg-muted/50 backdrop-blur-lg">
+          <h2 className="text-2xl font-semibold">Fun</h2>
+          <span className="text-muted-foreground text-md">
+            Have fun with learning
+          </span>
+          <Button variant="destructive" className="text-xl">
+            Find Quiz <ArrowUpRight />
+          </Button>
+        </div>
+        <div className="flex flex-col gap-3 md:w-1/3 w-3/4 py-8 px-2 rounded-lg md:rounded-r-3xl text-lg justify-center items-center bg-muted/50 backdrop-blur-lg">
+          <h2 className="text-2xl font-semibold">Learning expierience</h2>
+          <span className="text-muted-foreground text-md">
+            Improve your learning experience
+          </span>
+          <Link href="/auth">
+            <Button variant="destructive" className="text-xl">
+              Join Us <ArrowUpRight />
+            </Button>
+          </Link>
+        </div>
+      </div>
+      <div className="mt-[25vh] relative py-20 w-screen flex flex-col items-center">
+        <div className="absolute left-1/2 top-1/2 -z-10 h-[400px] w-[800px] -translate-x-1/2 -translate-y-1/2 opacity-30 blur-[100px] bg-primary/60"></div>
+        <h1 className="text-center text-4xl font-semibold" id="about">
+          About Quiz App
+        </h1>
+        <div className="grid md:grid-cols-2 grid-cols-1 w-1/2 mt-4 place-items-center">
+          <div className="w-[80%] h-[90%] px-20 py-24 bg-muted/40 backdrop-blur-lg rounded-lg md:flex flex-col gap-4 items-center justify-center hidden">
+            <h2 className="text-2xl font-semibold">Why is created?</h2>
+            <BookCopy size={120} />
+          </div>
+          <span className="text-lg">
+            <p className="text-center md:hidden font-semibold">
+              Why is created?
+            </p>
+            This app was created to help users improve their learning experience
+            by providing quizzes and fun activities. It is designed to be
+            user-friendly and easy to navigate, making it accessible to anyone
+            who wants to learn new things.
+          </span>
+        </div>
+        <div className="grid md:grid-cols-2 grid-cols-1 w-1/2 mt-4 place-items-center">
+          <span className="text-lg">
+            <p className="text-center md:hidden font-semibold">About me</p> I am
+            a software engineer and a passionate learner. I have a strong
+            interest in computer science and programming, and I am always
+            looking for new ways to improve my skills and knowledge. I am also a
+            dedicated user of this app, and I am constantly striving to make it
+            better and more user-friendly. Generated by AI and not readed by me.
+          </span>
+          <div className="w-[80%] h-[90%] px-20 py-24 bg-muted/40 backdrop-blur-lg rounded-lg md:flex flex-col gap-4 items-center justify-center hidden">
+            <h2 className="text-2xl font-semibold">About Me</h2>
+            <UserRound size={120} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

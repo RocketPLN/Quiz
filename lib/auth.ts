@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { SignInSchema } from "./zod";
 import { serverClient } from "@/trpc/serverClient";
+import { Session } from "next-auth";
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   providers: [
@@ -17,9 +18,13 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
 
         const { email, password } = await SignInSchema.parseAsync(credentials);
 
-        const users = await serverClient.getUsers();
+        const users = await serverClient.Users.getUsers();
 
-        const tempUser = users.find((user: User) => user.email === email);
+        let tempUser = users.find((user) => user.email === email);
+
+        if (!tempUser) {
+          tempUser = users.find((user) => user.username === email);
+        }
 
         const compare = await bcrypt.compare(
           password,
@@ -40,4 +45,20 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
       },
     }),
   ],
+  pages: { error: "/api/auth/error" },
+  callbacks: {
+    async session({ session }: { session: Session }) {
+      const users = await serverClient.Users.getUsers();
+      const user = users.find((user) => user.email === session?.user?.email);
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user?.id,
+          username: user?.username,
+        },
+      };
+    },
+  },
 });
