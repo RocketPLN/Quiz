@@ -1,7 +1,10 @@
 import BackgroundEffect from "@/components/backgroundEffect";
+import CreateQuiz from "@/components/quiz/createQuiz";
 import QuizBlock from "@/components/quiz/quizBlock";
+
 import { auth } from "@/lib/auth";
 import { serverClient } from "@/trpc/serverClient";
+
 import { Session } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -21,17 +24,16 @@ async function Dashboard() {
           Dashboard
         </h1>
         <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-          <div className="col-span-3 text-3xl font-semibold place-self-center">
-            Create Quiz
+          <div className="md:col-span-3 place-self-center">
+            <CreateQuiz creatorId={session.user.id} />
           </div>
           {quizzes.length != 0 ? (
             quizzes.map((quiz) => <QuizBlock quiz={quiz} key={quiz.id} />)
           ) : (
-            <div className="col-span-3 text-center text-4xl p-8 font-bold">
+            <div className="md:col-span-3 text-center text-4xl p-8 font-bold">
               Not Found
             </div>
           )}
-          {}
         </div>
       </div>
     </>

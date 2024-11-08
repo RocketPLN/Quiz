@@ -1,3 +1,4 @@
+import { QuizCategory } from "@prisma/client";
 import { z } from "zod";
 
 export const SignInSchema = z.object({
@@ -35,5 +36,5 @@ export const SignUpSchema = z.object({
 export const createQuizSchema = z.object({
   creatorId: z.string(),
   title: z.string(),
-  category: z.enum(["ENGLISH", "DEUTSCH"]),
+  category: z.nativeEnum(QuizCategory),
 });

@@ -31,6 +31,8 @@ model Quiz {
 enum QuizCategory {
   ENGLISH
   DEUTSCH
+  BIOLOGIE
+  PRABUCKI
 }
 
 model Question {

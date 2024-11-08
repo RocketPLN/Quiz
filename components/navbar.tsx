@@ -44,10 +44,10 @@ function Navbar({ user }: { user: User | undefined }) {
       <div className="p-2 flex justify-center w-screen">
         <div className="flex md:justify-around justify-center w-[80%]">
           <h1 className="md:flex hidden justify-start items-center text-lg">
-            Quiz App
+            <Link href="/">Quiz App</Link>
           </h1>
           <NavigationMenu className="text-muted-foreground">
-            <NavigationMenuList>
+            <NavigationMenuList className="grid grid-cols-1 gap-2 place-items-center md:flex">
               <NavigationMenuItem>
                 <Link href="/#about" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>

@@ -5,7 +5,11 @@ import { createQuizSchema } from "@/lib/zod";
 import { revalidateTag, unstable_cache } from "next/cache";
 
 const cachedQuizzesFetcher = unstable_cache(
-  () => db.quiz.findMany({ include: { User: true, questions: true } }),
+  () =>
+    db.quiz.findMany({
+      include: { User: true, questions: true },
+      orderBy: { createdAt: "desc" },
+    }),
   ["quizzes"],
   {
     tags: ["quizzes"],

@@ -6,12 +6,14 @@ import Tooltip from "@/components/tooltip";
 import { PencilRuler, Smile, Trash } from "lucide-react";
 import { Quiz } from "@prisma/client";
 import { trpc } from "@/trpc/client";
+import { useRouter } from "next/navigation";
 
 function QuizBlock({ quiz }: { quiz: Quiz }) {
   const removeQuiz = trpc.Quizzes.removeQuiz.useMutation();
+  const router = useRouter();
 
-  const createdAt = new Date(quiz.createdAt).toLocaleDateString();
-  const updatedAt = new Date(quiz.updatedAt).toLocaleDateString();
+  const createdAt = new Date(quiz.createdAt).toLocaleString();
+  const updatedAt = new Date(quiz.updatedAt).toLocaleString();
 
   return (
     <div className="border rounded-md p-6 bg-muted/50 backdrop:blur-lg capitalize leading-snug">
@@ -23,7 +25,12 @@ function QuizBlock({ quiz }: { quiz: Quiz }) {
       </span>
       <div className="mt-4 flex justify-between items-center">
         <Tooltip content="Edytuj" asChild>
-          <Button variant="outline">
+          <Button
+            variant="outline"
+            onClick={() => {
+              router.push(`/dashboard/${quiz.id}`);
+            }}
+          >
             <PencilRuler />
           </Button>
         </Tooltip>
@@ -33,7 +40,8 @@ function QuizBlock({ quiz }: { quiz: Quiz }) {
             variant="destructive"
             onClick={async () => {
               await removeQuiz.mutateAsync({ id: quiz.id });
-              globalThis.location.reload();
+              router.prefetch("/dashboard");
+              router.push("/dashboard");
             }}
           >
             <Trash />
