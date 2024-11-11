@@ -1,10 +1,21 @@
-import NextAuth, { User } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-
+import NextAuth, { DefaultSession, User } from "next-auth";
+import Credentials from "@auth/core/providers/credentials";
 import bcrypt from "bcryptjs";
 import { SignInSchema } from "./zod";
 import { serverClient } from "@/trpc/serverClient";
-import { Session } from "next-auth";
+
+declare module "next-auth" {
+  interface User {
+    username: string;
+  }
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      username: string;
+    } & DefaultSession["user"];
+  }
+}
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   providers: [
@@ -13,7 +24,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         email: {},
         password: {},
       },
-      authorize: async (credentials) => {
+      async authorize(credentials) {
         let user: User | null = null;
 
         const { email, password } = await SignInSchema.parseAsync(credentials);
@@ -26,18 +37,19 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
           tempUser = users.find((user) => user.username === email);
         }
 
-        const compare = await bcrypt.compare(
-          password,
-          tempUser?.password as string
-        );
+        if (!tempUser) {
+          throw new Error("User not found");
+        }
+
+        const compare = await bcrypt.compare(password, tempUser.password);
 
         if (!compare) {
           throw new Error("Invalid credentials");
         }
 
         user = {
-          id: tempUser?.id as string,
-          email: tempUser?.email as string,
+          id: tempUser.id,
+          email: tempUser.email,
           username: tempUser?.username as string,
         };
 
@@ -47,16 +59,20 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   ],
   pages: { error: "/api/auth/error" },
   callbacks: {
-    async session({ session }: { session: Session }) {
+    async session({ session }) {
       const users = await serverClient.Users.getUsers();
-      const user = users.find((user) => user.email === session?.user?.email);
+      const dbUser = users.find((u) => u.email === session.user.email);
+
+      if (!dbUser) {
+        throw new Error("User not found in database");
+      }
 
       return {
         ...session,
         user: {
           ...session.user,
-          id: user?.id,
-          username: user?.username,
+          id: dbUser.id,
+          username: dbUser.username,
         },
       };
     },

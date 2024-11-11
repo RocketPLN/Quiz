@@ -9,7 +9,7 @@ import { Session } from "next-auth";
 import { redirect } from "next/navigation";
 
 async function Dashboard() {
-  const session: Session = await auth();
+  const session: Session | null = await auth();
   if (!session) redirect("/");
 
   const quizzes = await serverClient.Quizzes.getQuizByCreator({
@@ -19,18 +19,18 @@ async function Dashboard() {
   return (
     <>
       <BackgroundEffect />
-      <div className="flex items-center flex-col w-screen">
-        <h1 className="bg-gradient-to-r from-primary to-destructive bg-clip-text text-transparent text-6xl font-bold m-12">
+      <div className="flex w-screen flex-col items-center">
+        <h1 className="m-12 bg-gradient-to-r from-primary to-destructive bg-clip-text text-6xl font-bold text-transparent">
           Dashboard
         </h1>
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-          <div className="md:col-span-3 place-self-center">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="place-self-center md:col-span-3">
             <CreateQuiz creatorId={session.user.id} />
           </div>
           {quizzes.length != 0 ? (
             quizzes.map((quiz) => <QuizDashboard quiz={quiz} key={quiz.id} />)
           ) : (
-            <div className="md:col-span-3 text-center text-4xl p-8 font-bold">
+            <div className="p-8 text-center text-4xl font-bold md:col-span-3">
               Not Found
             </div>
           )}

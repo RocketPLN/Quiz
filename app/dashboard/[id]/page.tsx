@@ -5,10 +5,10 @@ import { redirect } from "next/navigation";
 import QuestionForm from "./form";
 
 async function QuizPage({ params }: { params: Promise<{ id: string }> }) {
-  const session: Session = await auth();
+  const session: Session | null = await auth();
   const quiz = await serverClient.Quizzes.getQuiz({ id: (await params).id });
 
-  if (!session.user) {
+  if (!session?.user) {
     redirect("/");
   }
 
