@@ -27,7 +27,7 @@ export default function Home() {
         <div className="flex w-3/4 flex-col items-center justify-center gap-3 rounded-lg bg-muted/50 px-2 py-8 text-lg backdrop-blur-lg md:w-1/3">
           <h2 className="text-2xl font-semibold">Fun</h2>
           <span className="text-md text-muted-foreground">
-            Have fun with learning
+            Have fun with learning 😎
           </span>
           <Link href="/quiz">
             <Button variant="destructive" className="text-xl">
