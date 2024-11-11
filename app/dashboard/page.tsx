@@ -1,6 +1,6 @@
 import BackgroundEffect from "@/components/backgroundEffect";
 import CreateQuiz from "@/components/quiz/createQuiz";
-import QuizBlock from "@/components/quiz/quizBlock";
+import QuizDashboard from "@/components/quiz/quizDashboard";
 
 import { auth } from "@/lib/auth";
 import { serverClient } from "@/trpc/serverClient";
@@ -28,7 +28,7 @@ async function Dashboard() {
             <CreateQuiz creatorId={session.user.id} />
           </div>
           {quizzes.length != 0 ? (
-            quizzes.map((quiz) => <QuizBlock quiz={quiz} key={quiz.id} />)
+            quizzes.map((quiz) => <QuizDashboard quiz={quiz} key={quiz.id} />)
           ) : (
             <div className="md:col-span-3 text-center text-4xl p-8 font-bold">
               Not Found

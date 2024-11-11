@@ -54,7 +54,8 @@ function CreateQuiz({ creatorId }: { creatorId: string }) {
 
   async function onSubmit(values: z.infer<typeof createQuizSchema>) {
     const sameQuiz = quizzes?.find(
-      (quiz) => quiz.title === values.title && quiz.category === values.category
+      (quiz) =>
+        quiz.title === values.title && quiz.category === values.category,
     );
 
     if (!sameQuiz) {
@@ -62,6 +63,7 @@ function CreateQuiz({ creatorId }: { creatorId: string }) {
       toast.success("Quiz created successfully");
       router.prefetch("/dashboard");
       router.push("/dashboard");
+      return;
     }
     toast.error("Quiz with this title already exists");
   }
@@ -69,7 +71,7 @@ function CreateQuiz({ creatorId }: { creatorId: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="text-3xl font-semibold border" variant="ghost">
+        <Button className="border text-3xl font-semibold" variant="ghost">
           Create Quiz
         </Button>
       </DialogTrigger>

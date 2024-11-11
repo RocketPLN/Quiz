@@ -8,7 +8,7 @@ import { Quiz } from "@prisma/client";
 import { trpc } from "@/trpc/client";
 import { useRouter } from "next/navigation";
 
-function QuizBlock({ quiz }: { quiz: Quiz }) {
+function QuizDashboard({ quiz }: { quiz: Quiz }) {
   const removeQuiz = trpc.Quizzes.removeQuiz.useMutation();
   const router = useRouter();
 
@@ -52,4 +52,4 @@ function QuizBlock({ quiz }: { quiz: Quiz }) {
   );
 }
 
-export default QuizBlock;
+export default QuizDashboard;

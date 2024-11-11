@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/providers/themeProvider";
 import Navbar from "@/components/navbar";
 import { auth } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
+import { serverClient } from "@/trpc/serverClient";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,10 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
+  const user = await serverClient.Users.getUser({
+    email: session?.user?.email as string,
+  });
+
   return (
     <html lang="pl" suppressHydrationWarning>
       <body
@@ -46,7 +51,7 @@ export default async function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
-              <Navbar user={session?.user} />
+              <Navbar user={user} />
               {children}
               <Toaster />
             </ThemeProvider>

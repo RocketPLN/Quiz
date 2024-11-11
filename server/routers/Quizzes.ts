@@ -1,20 +1,23 @@
 import { db } from "@/lib/database";
 import { publicProcedure } from "../trpc";
 import { z } from "zod";
-import { createQuizSchema } from "@/lib/zod";
+import { createQuestionSchema, createQuizSchema } from "@/lib/zod";
 import { revalidateTag, unstable_cache } from "next/cache";
 
 const cachedQuizzesFetcher = unstable_cache(
   () =>
     db.quiz.findMany({
-      include: { User: true, questions: true },
-      orderBy: { createdAt: "desc" },
+      include: {
+        User: { select: { id: true, username: true, email: true } },
+        questions: true,
+      },
+      orderBy: [{ category: "asc" }, { updatedAt: "desc" }],
     }),
   ["quizzes"],
   {
     tags: ["quizzes"],
     revalidate: 3600,
-  }
+  },
 );
 
 export const getQuizzes = publicProcedure.query(async () => {
@@ -68,10 +71,40 @@ export const removeQuiz = publicProcedure
     return;
   });
 
+export const createQuestions = publicProcedure
+  .input(z.array(createQuestionSchema))
+  .mutation(async ({ input }) => {
+    const questions = await Promise.all(
+      input.map(async (question) => {
+        return db.question.upsert({
+          where: { id: question.id || "" },
+          update: {
+            question: question.question,
+            answer: question.answer,
+            type: question.type,
+            correctAnswer: question.correctAnswer,
+          },
+          create: {
+            quizId: question.quizId,
+            question: question.question,
+            answer: question.answer,
+            type: question.type,
+            correctAnswer: question.correctAnswer,
+          },
+        });
+      }),
+    );
+
+    revalidateTag("quizzes");
+
+    return questions;
+  });
+
 export const Quizzes = {
   getQuizzes,
   getQuiz,
   getQuizByCreator,
   createQuiz,
   removeQuiz,
+  createQuestions,
 };

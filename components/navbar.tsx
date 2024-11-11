@@ -12,13 +12,29 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/themeToggle";
+import UserDropdown from "@/components/userDropdown";
+
+import { DiscordLogoIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { User } from "next-auth";
 import { usePathname, useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
+import { QuizCategory } from "@prisma/client";
+
+const support = [
+  {
+    name: "Discord",
+    icon: <DiscordLogoIcon />,
+    link: "https://discord.gg/BExQ86z8",
+  },
+  {
+    name: "GitHub",
+    icon: <GitHubLogoIcon />,
+    link: "https://github.com/RocketPLN",
+  },
+];
 
 function Navbar({ user }: { user: User | undefined }) {
   const router = useRouter();
@@ -58,18 +74,44 @@ function Navbar({ user }: { user: User | undefined }) {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Quizzes</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <NavigationMenuList className="w-[20vw] p-4">
-                    {/* // TODO Add items */}
-                    <NavigationMenuLink>English Category</NavigationMenuLink>
+                  <NavigationMenuList className="p-4 grid grid-cols-2 gap-2 w-max place-items-center">
+                    <NavigationMenuItem className="col-span-2 text-foreground text-xl font-semibold">
+                      Select Category
+                    </NavigationMenuItem>
+                    {Object.values(QuizCategory).map((category) => (
+                      <NavigationMenuLink
+                        key={category}
+                        className="flex items-center gap-2 p-2 rounded-md hover:bg-accent w-fit"
+                        href={`/quiz/?category=${category.toLocaleLowerCase()}`}
+                      >
+                        {category.at(0) + category.toLocaleLowerCase().slice(1)}
+                      </NavigationMenuLink>
+                    ))}
+                    <NavigationMenuLink
+                      href="/quiz"
+                      className="flex items-center gap-2 p-2 rounded-md hover:bg-accent w-fit"
+                    >
+                      All
+                    </NavigationMenuLink>
                   </NavigationMenuList>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Support</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <NavigationMenuList className="w-[20vw] p-4">
-                    {/* // TODO Add contacts */}
-                    <NavigationMenuLink>Discord</NavigationMenuLink>
+                  <NavigationMenuList className="p-4 flex flex-col justify-center items-center gap-2 w-full">
+                    {support.map((support) => (
+                      <Link
+                        href={support.link}
+                        key={support.name}
+                        legacyBehavior
+                        passHref
+                      >
+                        <NavigationMenuLink className="flex items-center gap-2 p-2 rounded-md hover:bg-accent">
+                          {support.name} {support.icon}
+                        </NavigationMenuLink>
+                      </Link>
+                    ))}
                   </NavigationMenuList>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -90,7 +132,7 @@ function Navbar({ user }: { user: User | undefined }) {
                 Login
               </Button>
             ) : (
-              <Button onClick={() => signOut()}>Hi {user.username}!</Button>
+              <UserDropdown user={user} />
             )}
             <div className="hidden md:block">
               <ModeToggle />

@@ -25,7 +25,7 @@ model Quiz {
   questions Question[]
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
-  User      User         @relation(fields: [creatorId], references: [id])
+  User      User         @relation(fields: [creatorId], references: [id], onDelete: Cascade)
 }
 
 enum QuizCategory {
@@ -33,12 +33,21 @@ enum QuizCategory {
   DEUTSCH
   BIOLOGIE
   PRABUCKI
+  OTHER
 }
 
 model Question {
-  id       String @id @default(cuid())
-  quizId   String
-  question String
-  answer   String
-  Quiz     Quiz   @relation(fields: [quizId], references: [id])
+  id            String       @id @default(cuid())
+  quizId        String
+  question      String
+  answer        String[]
+  correctAnswer String[]
+  type          QuestionType
+  Quiz          Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+enum QuestionType {
+  ABC
+  MULTIPLE_CHOICE
+  FILL_BLANK
 }
