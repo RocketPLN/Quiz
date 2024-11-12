@@ -8,41 +8,24 @@ import ABC from "./ABC";
 import FillBlank from "./FillBlank";
 
 import { Question } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 function Quiz({ questions }: { questions: Question[] }) {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
-  const [questionsOrder, setQuestionsOrder] = useState<Question[]>(questions);
   const score = useState<number>(0);
 
-  useEffect(() => {
-    const shuffleArray = (array: Question[]) => {
-      const newArray = [...array];
-      for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-      }
-      return newArray;
-    };
-
-    setQuestionsOrder(shuffleArray(questions));
-  }, [questions]);
-
   const renderOptions = () => {
-    switch (questionsOrder[currentQuestion].type) {
+    switch (questions[currentQuestion].type) {
       case "ABC":
-        return <ABC Score={score} question={questionsOrder[currentQuestion]} />;
+        return <ABC Score={score} question={questions[currentQuestion]} />;
       case "MULTIPLE_CHOICE":
         return (
-          <MultiChoice
-            Score={score}
-            question={questionsOrder[currentQuestion]}
-          />
+          <MultiChoice Score={score} question={questions[currentQuestion]} />
         );
       case "FILL_BLANK":
         return (
-          <FillBlank Score={score} question={questionsOrder[currentQuestion]} />
+          <FillBlank Score={score} question={questions[currentQuestion]} />
         );
     }
   };
@@ -75,10 +58,10 @@ function Quiz({ questions }: { questions: Question[] }) {
       />
       <div className="flex flex-col items-center justify-center gap-4">
         <h1 className="text-center text-3xl font-bold">
-          {questionsOrder[currentQuestion].question}
+          {questions[currentQuestion].question}
         </h1>
         <h3 className="text-center text-xl font-bold">
-          {questionsOrder[currentQuestion].type}
+          {questions[currentQuestion].type}
         </h3>
         {renderOptions()}
         <Tooltip
