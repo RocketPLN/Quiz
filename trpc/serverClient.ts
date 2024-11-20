@@ -4,6 +4,6 @@ import { appRouter } from "@/server";
 
 export const serverClient = appRouter.createCaller({
   links: [
-    httpBatchLink({ url: "https://quiz-blond-sigma.vercel.app/api/trpc" }),
+    httpBatchLink({ url: "https://sigma-quiz-app.vercel.app/api/trpc" }),
   ],
 });
