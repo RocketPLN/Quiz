@@ -10,15 +10,15 @@ import { toast } from "sonner";
 
 function MultiChoice({
   Score,
-  question,
-  bool, 
+  Answerd,
+  question,   
 }: {
   Score: [number, Dispatch<SetStateAction<number>>];
+  Answerd: [boolean, Dispatch<SetStateAction<boolean>>]
   question: Question;
-  bool: boolean
 }) {
   const [score, setScore] = Score;
-  const [answerd, setAnswerd] = useState<boolean>(bool);
+  const [answerd, setAnswerd] = Answerd;
   const [answers, setAnswers] = useState<string[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
   const [isClient, setIsClient] = useState(false);

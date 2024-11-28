@@ -13,6 +13,7 @@ import { ArrowRight } from "lucide-react";
 
 function Quiz({ questions }: { questions: Question[] }) {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  const answerd = useState(false)
   const score = useState<number>(0);
 
   const renderOptions = () => {
@@ -21,7 +22,7 @@ function Quiz({ questions }: { questions: Question[] }) {
         return <ABC Score={score} question={questions[currentQuestion]} />;
       case "MULTIPLE_CHOICE":
         return (
-          <MultiChoice Score={score} question={questions[currentQuestion]} bool={false}  />
+          <MultiChoice Score={score} question={questions[currentQuestion]} Answerd={answerd}  />
         );
       case "FILL_BLANK":
         return (
@@ -71,7 +72,7 @@ function Quiz({ questions }: { questions: Question[] }) {
           <Button
             type="button"
             variant="outline"
-            onClick={() => setCurrentQuestion(currentQuestion + 1)}
+            onClick={() => {setCurrentQuestion(currentQuestion + 1) setAnswerd(false)}}
           >
             Next <ArrowRight />
           </Button>
