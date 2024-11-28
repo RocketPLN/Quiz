@@ -11,19 +11,18 @@ import { toast } from "sonner";
 function MultiChoice({
   Score,
   question,
+  bool, 
 }: {
   Score: [number, Dispatch<SetStateAction<number>>];
   question: Question;
+  bool: boolean
 }) {
   const [score, setScore] = Score;
-  const [answerd, setAnswerd] = useState<boolean>(false);
+  const [answerd, setAnswerd] = useState<boolean>(bool);
   const [answers, setAnswers] = useState<string[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
   const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setAnswerd(false)
-  }, [answerd])
 
   function checkAnswers() {
     const correctAnswers = selectedAnswers.filter((answer) =>

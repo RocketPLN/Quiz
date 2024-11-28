@@ -21,7 +21,7 @@ function Quiz({ questions }: { questions: Question[] }) {
         return <ABC Score={score} question={questions[currentQuestion]} />;
       case "MULTIPLE_CHOICE":
         return (
-          <MultiChoice Score={score} question={questions[currentQuestion]} />
+          <MultiChoice Score={score} question={questions[currentQuestion]} bool={false}  />
         );
       case "FILL_BLANK":
         return (
