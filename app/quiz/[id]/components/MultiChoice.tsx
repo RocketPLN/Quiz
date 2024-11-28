@@ -28,6 +28,10 @@ function MultiChoice({
       question.answer.includes(answer),
     );
 
+    const correctQuestionAnswers = question.correctAnswer.filter((answer) =>
+      answers.includes(answer),
+    );
+
     const correctAnswers = questionAnswers.filter((answer) =>
       question.correctAnswer.includes(answer),
     );
@@ -39,17 +43,18 @@ function MultiChoice({
 
     setAnswered(true);
 
-    if (question.correctAnswer.length === correctAnswers.length) {
+    if (correctQuestionAnswers.length === correctAnswers.length) {
       toast.success("Correct!");
       setScore(
         score +
           Math.round(
-            (correctAnswers.length / question.correctAnswer.length) * 100,
+            (correctAnswers.length / correctQuestionAnswers.length) * 100,
           ) /
             100,
       );
       return;
     }
+
     toast.error("Incorrect!");
   }
 
