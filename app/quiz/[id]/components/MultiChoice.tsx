@@ -28,12 +28,9 @@ function MultiChoice({
       question.answer.includes(answer),
     );
 
-    const correctAnswers = questionAnswers.filter((answer) => {
-      return (
-        question.correctAnswer.includes(answer) &&
-        question.answer.includes(answer)
-      );
-    });
+    const correctAnswers = questionAnswers.filter((answer) =>
+      question.correctAnswer.includes(answer),
+    );
 
     if (questionAnswers.length === 0) {
       toast.error("Please select all answers");
@@ -42,7 +39,7 @@ function MultiChoice({
 
     setAnswered(true);
 
-    if (question.correctAnswer.length === questionAnswers.length) {
+    if (question.correctAnswer.length === correctAnswers.length) {
       toast.success("Correct!");
       setScore(
         score +
