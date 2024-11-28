@@ -9,13 +9,16 @@ import { toast } from "sonner";
 function ABC({
   Score,
   question,
+  Answered,
 }: {
   Score: [number, Dispatch<SetStateAction<number>>];
+  Answered: [boolean, Dispatch<SetStateAction<boolean>>];
+
   question: Question;
 }) {
   const [score, setScore] = Score;
   const [answers, setAnswers] = useState<string[]>(question.answer);
-  const [answerd, setAnswerd] = useState<boolean>(false);
+  const [answerd, setAnswered] = Answered;
 
   const alphabet = [...Array(26).keys()].map((i) =>
     String.fromCharCode(i + 97).toUpperCase(),
@@ -35,7 +38,7 @@ function ABC({
   }, [question.answer]);
 
   function checkAnswer(answer: string): boolean {
-    setAnswerd(true);
+    setAnswered(true);
     if (question.correctAnswer.includes(answer)) {
       toast.success("Correct!");
       setScore(score + 1);

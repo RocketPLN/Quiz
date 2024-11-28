@@ -10,16 +10,18 @@ import { toast } from "sonner";
 function FillBlank({
   Score,
   question,
+  Answered,
 }: {
   Score: [number, Dispatch<SetStateAction<number>>];
   question: Question;
+  Answered: [boolean, Dispatch<SetStateAction<boolean>>];
 }) {
   const [score, setScore] = Score;
   const [answer, setAnswer] = useState<string>("");
-  const [answerd, setAnswerd] = useState<boolean>(false);
+  const [answerd, setAnswered] = Answered;
 
   function checkAnswer() {
-    setAnswerd(true);
+    setAnswered(true);
     const Answer = correctPolishLetters(answer.toLocaleLowerCase());
     const CorrectAnswer = correctPolishLetters(
       question.correctAnswer[0].toLocaleLowerCase(),

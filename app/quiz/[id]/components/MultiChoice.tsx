@@ -10,32 +10,39 @@ import { toast } from "sonner";
 
 function MultiChoice({
   Score,
-  Answerd,
-  question,   
+  Answered,
+  question,
 }: {
   Score: [number, Dispatch<SetStateAction<number>>];
-  Answerd: [boolean, Dispatch<SetStateAction<boolean>>]
+  Answered: [boolean, Dispatch<SetStateAction<boolean>>];
   question: Question;
 }) {
   const [score, setScore] = Score;
-  const [answerd, setAnswerd] = Answerd;
+  const [answerd, setAnswered] = Answered;
   const [answers, setAnswers] = useState<string[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
   const [isClient, setIsClient] = useState(false);
 
-
   function checkAnswers() {
-    const correctAnswers = selectedAnswers.filter((answer) =>
-      question.correctAnswer.includes(answer),
+    const questionAnswers = selectedAnswers.filter((answer) =>
+      question.answer.includes(answer),
     );
 
-    if (selectedAnswers.length === 0) {
+    const correctAnswers = questionAnswers.filter((answer) => {
+      return (
+        question.correctAnswer.includes(answer) &&
+        question.answer.includes(answer)
+      );
+    });
+
+    if (questionAnswers.length === 0) {
       toast.error("Please select all answers");
       return;
     }
 
-    setAnswerd(true);
-    if (correctAnswers.length === selectedAnswers.length) {
+    setAnswered(true);
+
+    if (question.correctAnswer.length === questionAnswers.length) {
       toast.success("Correct!");
       setScore(
         score +
