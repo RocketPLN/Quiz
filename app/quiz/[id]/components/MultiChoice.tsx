@@ -21,6 +21,10 @@ function MultiChoice({
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
   const [isClient, setIsClient] = useState(false);
 
+  useEffect(() => {
+    setAnswerd(false)
+  }, [answerd])
+
   function checkAnswers() {
     const correctAnswers = selectedAnswers.filter((answer) =>
       question.correctAnswer.includes(answer),
