@@ -72,7 +72,10 @@ function Quiz({ questions }: { questions: Question[] }) {
           <Button
             type="button"
             variant="outline"
-            onClick={() => {setCurrentQuestion(currentQuestion + 1) setAnswerd(false)}}
+            onClick={() => {
+              setCurrentQuestion(currentQuestion + 1)
+              answerd[1](false)  
+            }}
           >
             Next <ArrowRight />
           </Button>
